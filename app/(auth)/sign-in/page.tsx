@@ -32,6 +32,7 @@ const SignIn = () => {
 				<InputField
 					name="email"
 					label="Email"
+					type="email"
 					placeholder="ramatra@example.com"
 					register={register}
 					error={errors.email}
