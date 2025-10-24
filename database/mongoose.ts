@@ -35,4 +35,5 @@ export async function connectToDatabase() {
 		cached.promise = null;
 		throw error;
 	}
+	return cached.conn;
 }

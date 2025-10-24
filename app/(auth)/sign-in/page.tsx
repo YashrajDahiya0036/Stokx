@@ -3,7 +3,10 @@
 import FooterLink from "@/components/forms/FooterLink";
 import InputField from "@/components/forms/InputField";
 import { Button } from "@/components/ui/button";
+import { signInWithEmail } from "@/lib/actions/auth.action";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignIn = () => {
 	const {
@@ -18,16 +21,30 @@ const SignIn = () => {
 		},
 		mode: "onBlur",
 	});
+
+	const router = useRouter(); 
+
 	const onSubmit = async (data: SignInFormData) => {
 		try {
-			console.log(data);
+			const result = await signInWithEmail(data);
+			console.log("Sign In Result:", result);
+			if (result.success) {
+				toast.success("Sign In Successful!");
+				router.push("/");
+			}
 		} catch (error) {
 			console.error("Sign In Error:", error);
+			toast.error("Sign In Failed.", {
+				description:
+					error instanceof Error
+						? error.message
+						: "Failed to createa an account",
+			});
 		}
 	};
-	return( 
-	<>
-	<h1 className="form-title">Sign In</h1>
+	return (
+		<>
+			<h1 className="form-title">Sign In</h1>
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 				<InputField
 					name="email"
@@ -67,9 +84,10 @@ const SignIn = () => {
 					text="Don't have an account?"
 					linkText="Create Account"
 					href="/sign-up"
-				 />
+				/>
 			</form>
-	</>);
+		</>
+	);
 };
 
 export default SignIn;
