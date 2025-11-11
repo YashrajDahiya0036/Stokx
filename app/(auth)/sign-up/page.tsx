@@ -13,7 +13,7 @@ import {
 } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 const SignUp = () => {
 	const {
@@ -34,21 +34,29 @@ const SignUp = () => {
 		mode: "onBlur",
 	});
 
-	const router = useRouter()
+	const router = useRouter();
 
 	const onSubmit = async (data: SignUpFormData) => {
 		try {
-			const result = await signUpWithEmail(data)
-			if(result.success){
-				toast.success("Sign Up Successful!")
-				router.push('/')
+			const result = await signUpWithEmail(data);
+			if (result.success) {
+				toast.success("Sign Up Successful!");
+				console.log("Sign Up Result:", result);
+				router.push("/");
 			} 
-				
+			// else {
+			// 	toast.error("Sign Up Failed.", {
+			// 		description: "Unable to create an account",
+			// 	});
+			// }
 		} catch (error) {
+			toast.error("Sign Up Failed.", {
+				description:
+					error instanceof Error
+						? error.message
+						: "Failed to createa an account",
+			});
 			console.error("Sign Up Error:", error);
-			toast.error("Sign Up Failed.",{
-				description: error instanceof Error ? error.message : "Failed to createa an account"
-			})
 		}
 	};
 	return (
@@ -139,7 +147,7 @@ const SignUp = () => {
 					text="Already have an account?"
 					linkText="Sign In"
 					href="/sign-in"
-				 />
+				/>
 			</form>
 		</>
 	);

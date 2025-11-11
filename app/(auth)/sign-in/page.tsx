@@ -22,7 +22,7 @@ const SignIn = () => {
 		mode: "onBlur",
 	});
 
-	const router = useRouter(); 
+	const router = useRouter();
 
 	const onSubmit = async (data: SignInFormData) => {
 		try {
@@ -31,6 +31,10 @@ const SignIn = () => {
 			if (result.success) {
 				toast.success("Sign In Successful!");
 				router.push("/");
+			} else {
+				toast.error("Sign In Failed.", {
+					description: "Invalid credentials",
+				});
 			}
 		} catch (error) {
 			console.error("Sign In Error:", error);

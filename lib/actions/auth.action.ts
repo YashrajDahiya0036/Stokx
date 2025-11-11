@@ -21,23 +21,29 @@ export const signUpWithEmail = async ({
 				name: fullName,
 			},
 		});
-		if (response) {
-			await inngest.send({
-				name: "app/user.created",
-				data: {
-					email,
-					name: fullName,
-					country,
-					investmentGoals,
-					riskTolerance,
-					preferredIndustry,
-				},
-			});
-		}
+		try {
+      if (response && typeof inngest?.send === "function") {
+        await inngest.send({
+          name: "app/user.created",
+          data: {
+            email,
+            name: fullName,
+            country,
+            investmentGoals,
+            riskTolerance,
+            preferredIndustry,
+          },
+        });
+      }
+    } catch (ingErr) {
+      console.error("Inngest send failed :", ingErr);
+    }
+		console.log("Sign Up Response:", response);
 		return { success: true, message: "Sign Up Successful" };
 	} catch (error) {
 		console.error("Sign Up Error:", error);
-		return { success: false, message: "Sign Up Failed" };
+		throw error instanceof Error ? error : new Error("Sign Up Failed");
+		// return { success: false, message: "Sign Up Failed", error };
 	}
 };
 
@@ -52,7 +58,8 @@ export const signInWithEmail = async ({ email, password }: SignInFormData) => {
 		return { success: true, message: "Sign In Successful" };
 	} catch (error) {
 		console.error("Sign In Error:", error);
-		return { success: false, message: "Sign In Failed" };
+		throw error instanceof Error ? error : new Error("Sign In Failed");
+		// return { success: false, message: "Sign In Failed", error };
 	}
 };
 
