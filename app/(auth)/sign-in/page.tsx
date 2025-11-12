@@ -4,6 +4,7 @@ import FooterLink from "@/components/forms/FooterLink";
 import InputField from "@/components/forms/InputField";
 import { Button } from "@/components/ui/button";
 import { signInWithEmail } from "@/lib/actions/auth.action";
+import { delay } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -12,7 +13,6 @@ const SignIn = () => {
 	const {
 		register,
 		handleSubmit,
-		control,
 		formState: { errors, isSubmitting },
 	} = useForm<SignInFormData>({
 		defaultValues: {
@@ -28,12 +28,22 @@ const SignIn = () => {
 		try {
 			const result = await signInWithEmail(data);
 			console.log("Sign In Result:", result);
+			if (!result)
+				throw new Error(
+					"No result from sign in (error from better auth)"
+				);
 			if (result.success) {
 				toast.success("Sign In Successful!");
 				router.push("/");
 			} else {
+				if (result.message === "Email not verified") {
+					await delay(3000);
+					toast.message("Redirecting to verify email page...");
+					router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+					return;
+				}
 				toast.error("Sign In Failed.", {
-					description: "Invalid credentials",
+					description: result.message,
 				});
 			}
 		} catch (error) {

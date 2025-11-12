@@ -11,8 +11,8 @@ import {
 	PREFERRED_INDUSTRIES,
 	RISK_TOLERANCE_OPTIONS,
 } from "@/lib/constants";
-import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+// import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignUp = () => {
@@ -34,7 +34,7 @@ const SignUp = () => {
 		mode: "onBlur",
 	});
 
-	const router = useRouter();
+	// const router = useRouter();
 
 	const onSubmit = async (data: SignUpFormData) => {
 		try {
@@ -42,13 +42,11 @@ const SignUp = () => {
 			if (result.success) {
 				toast.success("Sign Up Successful!");
 				console.log("Sign Up Result:", result);
-				router.push("/");
-			} 
-			// else {
-			// 	toast.error("Sign Up Failed.", {
-			// 		description: "Unable to create an account",
-			// 	});
-			// }
+			} else {
+				toast.error("Sign Up Failed.", {
+					description: result.message,
+				});
+			}
 		} catch (error) {
 			toast.error("Sign Up Failed.", {
 				description:
