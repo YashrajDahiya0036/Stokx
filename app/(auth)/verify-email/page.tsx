@@ -30,9 +30,10 @@ export default function VerifyEmailPage() {
 
 	return (
 		<>
+		<h1 className="text-center text-xl">Email Verification Sent.Check Your Email</h1>
 			<div className="flex justify-center mt-10" onClick={handleSendVerification}>
 				<Button className="yellow-btn w-full max-w-[300px]">
-					Send Verification Email
+					Send Verification Email Again
 				</Button>
 			</div>
 			<div className="flex flex-col justify-center items-center mt-10 text-lg">
