@@ -30,7 +30,14 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				{children}
-				<Toaster />
+				<Toaster theme="dark" style={
+        {
+          "--normal-bg": "#141414",
+          "--normal-text": "#e1e0e0",
+          "--normal-border": "#e1e0e0",
+          "--border-radius": "var(--radius)",
+        } as React.CSSProperties
+      }/>
 			</body>
 		</html>
 	);

@@ -15,7 +15,6 @@ export default function VerifyEmailPage() {
 	}
 
 	const handleSendVerification = async () => {
-		console.log("Resending verification email to:", userEmail);
 		const emailSent = await handleSendVerificationEmail(userEmail);
 		if(emailSent.success) {
 			toast.message("Verification email sent successfully!");
@@ -25,20 +24,20 @@ export default function VerifyEmailPage() {
 	};
 
 	if (error) {
-		return <div className="text-center text-lg">The email could not be verified.</div>;
+		return <div className="text-center text-lg text-gray-200">The email could not be verified.</div>;
 	}
 
 	return (
 		<>
-		<h1 className="text-center text-xl">Email Verification Sent.Check Your Email</h1>
+		<h1 className="text-center text-xl text-gray-200">Email Verification Sent.Check Your Email</h1>
 			<div className="flex justify-center mt-10" onClick={handleSendVerification}>
 				<Button className="yellow-btn w-full max-w-[300px]">
 					Send Verification Email Again
 				</Button>
 			</div>
-			<div className="flex flex-col justify-center items-center mt-10 text-lg">
+			<div className="flex flex-col justify-center items-center mt-10 text-lg text-gray-200">
 				You need to verify your email address before signing in.
-				<Link href="/sign-in" className="hover:text-amber-400 hover:underline mt-5 text-center">
+				<Link href="/sign-in" className="hover:text-amber-400 underline mt-5 text-center text-gray-200">
 					Go to Sign In
 				</Link>
 			</div>

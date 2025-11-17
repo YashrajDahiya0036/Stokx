@@ -11,7 +11,6 @@ export interface WatchlistItem extends Document {
 const WatchlistSchema = new Schema<WatchlistItem>(
 	{
 		userId: { type: Schema.Types.ObjectId, required: true, index: true },
-		email: { type: String, required: true, trim: true },
 		symbol: { type: String, required: true, uppercase: true, trim: true },
 		company: { type: String, required: true, trim: true },
 		addedAt: { type: Date, default: Date.now },

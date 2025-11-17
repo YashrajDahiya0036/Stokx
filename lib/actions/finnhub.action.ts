@@ -3,6 +3,10 @@
 import { getDateRange, validateArticle, formatArticle } from "@/lib/utils";
 import { POPULAR_STOCK_SYMBOLS } from "@/lib/constants";
 import { cache } from "react";
+import { getAuth } from "../better-auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getUserWatchlistSymbols } from "./watchlist.action";
 
 const FINNHUB_BASE_URL = "https://finnhub.io/api/v1";
 const NEXT_PUBLIC_FINNHUB_API_KEY =
@@ -122,6 +126,14 @@ export async function getNews(
 export const searchStocks = cache(
 	async (query?: string): Promise<StockWithWatchlistStatus[]> => {
 		try {
+			const auth = await getAuth();
+			const session = await auth.api.getSession({
+				headers: await headers(),
+			});
+			if (!session?.user) redirect("/sign-in");
+
+			const userWatchlistSymbols = await getUserWatchlistSymbols(session.user.id);
+
 			const token =
 				process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
 			if (!token) {
@@ -212,12 +224,11 @@ export const searchStocks = cache(
 						name,
 						exchange,
 						type,
-						isInWatchlist: false,
+						isInWatchlist: userWatchlistSymbols.includes(r.symbol.toUpperCase()),
 					};
 					return item;
 				})
 				.slice(0, 15);
-
 			return mapped;
 		} catch (err) {
 			console.error("Error in stock search:", err);

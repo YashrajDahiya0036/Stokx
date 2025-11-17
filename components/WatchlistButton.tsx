@@ -1,5 +1,11 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
+import {
+	addToWatchlist,
+	removeFromWatchlist,
+} from "@/lib/actions/watchlist.action";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 const WatchlistButton = ({
 	symbol,
@@ -16,29 +22,37 @@ const WatchlistButton = ({
 		return added ? "Remove from Watchlist" : "Add to Watchlist";
 	}, [added, type]);
 
-	// update this on click so that it add to watchlist in mongo db
+	const toggleWatchlist = async () => {
+		const result = added
+			? await removeFromWatchlist(symbol)
+			: await addToWatchlist(symbol, company);
 
-	const handleClick = async () => {
-		const next = !added;
-		setAdded(next);
-
-		try {
-			const res = await fetch("/api/watchlist", {
-				method: next ? "POST" : "DELETE",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ symbol, company }),
+		if (result.success) {
+			toast.success(
+				added ? "Removed from watchlist" : "Added to watchlist",
+				{
+					description: `${symbol} has been ${
+						added ? "removed from" : "added to"
+					} your watchlist.`,
+				}
+			);
+		} else {
+			toast.error("Error", {
+				description: result.message,
 			});
-			if (!res.ok) {
-				// revert state if request failed
-				setAdded(!next);
-				console.error("Failed to update watchlist");
-		 } else {
-				onWatchlistChange?.(symbol, next);
-			}
-		} catch (err) {
-			setAdded(!next);
-			console.error("Error updating watchlist", err);
 		}
+
+		onWatchlistChange?.(symbol, !added);
+	};
+
+	const debounceToggle = useDebounce(toggleWatchlist, 300);
+
+	const handleClick = async (e: React.MouseEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
+
+		setAdded(!added);
+		debounceToggle();
 	};
 
 	if (type === "icon") {

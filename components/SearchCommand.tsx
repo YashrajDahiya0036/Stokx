@@ -108,7 +108,7 @@ export default function SearchCommand({
 									: "Popular stocks"}
 								{` `}({displayStocks?.length || 0})
 							</div>
-							{displayStocks?.map((stock, i) => (
+							{displayStocks?.map((stock) => (
 								<li key={stock.symbol} className="search-item">
 									<Link
 										href={`/stocks/${stock.symbol}`}
@@ -126,8 +126,7 @@ export default function SearchCommand({
 											</div>
 										</div>
 										<div>
-											{stock.isInWatchlist && <Star fill="white"/>}
-											<Star />
+											{stock.isInWatchlist ? <Star fill="#aaa8a8" color="#aaa8a8"/> : <Star color="#aaa8a8" />}
 										</div>
 									</Link>
 								</li>

@@ -61,31 +61,30 @@ export const signInWithEmail = async ({ email, password }: SignInFormData) => {
 				password,
 			},
 		});
-		console.log("Sign In Response:");
+
 		return { success: true, message: "Sign In Successful" };
 	} catch (error) {
 		if (error instanceof APIError) {
-			console.log(error.message, error.status, error);
 			return { success: false, message: error.message };
 		}
 		// console.error("Sign In Error:", error);
-		// throw error instanceof Error ? error : new Error("Sign In Failed");
-		return { success: false, message: "Sign In Failed", error };
+		throw error instanceof Error ? error : new Error("Sign In Failed");
+		// return { success: false, message: "Sign In Failed", error };
 	}
 };
 
 export const handleSendVerificationEmail = async (email:string) => {
 	try {
 		const auth = await getAuth();
-		const data = await auth.api.sendVerificationEmail({
+		await auth.api.sendVerificationEmail({
 			body: {
 				email,
 				callbackURL: "/sign-in",
 			},
 		});
-		console.log("Send Verification Email Response:", data);	
 		return { success: true, message: "Send Verification Email Successful" };
 	} catch (error) {
+		console.error("Send Verification Email Error:", error);
 		return { success: false, message: "Send Verification Email Failed" };
 	}
 };

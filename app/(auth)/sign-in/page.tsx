@@ -27,7 +27,6 @@ const SignIn = () => {
 	const onSubmit = async (data: SignInFormData) => {
 		try {
 			const result = await signInWithEmail(data);
-			console.log("Sign In Result:", result);
 			if (!result)
 				throw new Error(
 					"No result from sign in (error from better auth)"
