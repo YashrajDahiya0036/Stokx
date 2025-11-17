@@ -56,7 +56,7 @@ export const sendSignUpEmail = inngest.createFunction(
 	}
 );
 
-const testGetAllUsersForNewsEmail = async () => {
+export const testGetAllUsersForNewsEmail = async () => {
 	const users = await getAllUsersForNewsEmail();
 	console.log("Users for news email:", users);
 };
