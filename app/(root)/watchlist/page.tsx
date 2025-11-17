@@ -48,12 +48,12 @@ const Watchlist = async () => {
 					</div>
 				</div>
 			</section>
-			{/* <section className="mt-10 mb-20">
+			<section className="mt-10 mb-20">
 				<div className="news">
-					<h2 className="watchlist-title">News</h2>
-					<NewsCard/>
+					<h2 className="watchlist-title">News For Your Preferred Stocks</h2>
+					<NewsCard watchlist={watchlist} />
 				</div>
-			</section> */}
+			</section>
 		</>
 	);
 };

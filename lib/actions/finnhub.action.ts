@@ -51,7 +51,6 @@ export async function getNews(
 		const cleanSymbols = (symbols || [])
 			.map((s) => s?.trim().toUpperCase())
 			.filter((s): s is string => Boolean(s));
-
 		const maxArticles = 6;
 
 		// If we have symbols, try to fetch company news per symbol and round-robin select
