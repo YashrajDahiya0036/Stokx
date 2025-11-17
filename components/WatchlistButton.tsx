@@ -36,6 +36,12 @@ const WatchlistButton = ({
 					} your watchlist.`,
 				}
 			);
+			const eventName = added ? "watchlist:removed" : "watchlist:added";
+			window.dispatchEvent(
+				new CustomEvent(eventName, {
+					detail: { symbol: symbol.toUpperCase() },
+				})
+			);
 		} else {
 			toast.error("Error", {
 				description: result.message,

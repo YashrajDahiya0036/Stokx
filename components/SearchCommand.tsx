@@ -58,6 +58,46 @@ export default function SearchCommand({
 		debouncedSearch();
 	}, [searchTerm]);
 
+	useEffect(() => {
+		const onAdded = (e: Event) => {
+			const symbol = (e as CustomEvent).detail?.symbol?.toUpperCase();
+			if (!symbol) return;
+			setStocks((prev) =>
+				prev?.map((s) =>
+					s.symbol.toUpperCase() === symbol
+						? { ...s, isInWatchlist: true }
+						: s
+				)
+			);
+		};
+
+		const onRemoved = (e: Event) => {
+			const symbol = (e as CustomEvent).detail?.symbol?.toUpperCase();
+			if (!symbol) return;
+			setStocks((prev) =>
+				prev?.map((s) =>
+					s.symbol.toUpperCase() === symbol
+						? { ...s, isInWatchlist: false }
+						: s
+				)
+			);
+		};
+
+		window.addEventListener("watchlist:added", onAdded as EventListener);
+		window.addEventListener("watchlist:removed",onRemoved as EventListener);
+
+		return () => {
+			window.removeEventListener(
+				"watchlist:added",
+				onAdded as EventListener
+			);
+			window.removeEventListener(
+				"watchlist:removed",
+				onRemoved as EventListener
+			);
+		};
+	}, []);
+
 	const handleSelectStock = () => {
 		setOpen(false);
 		setSearchTerm("");
@@ -109,7 +149,10 @@ export default function SearchCommand({
 								{` `}({displayStocks?.length || 0})
 							</div>
 							{displayStocks?.map((stock) => (
-								<li key={stock.symbol} className="search-item">
+								<li
+									key={stock.symbol}
+									className="search-item flex"
+								>
 									<Link
 										href={`/stocks/${stock.symbol}`}
 										onClick={handleSelectStock}
@@ -126,7 +169,14 @@ export default function SearchCommand({
 											</div>
 										</div>
 										<div>
-											{stock.isInWatchlist ? <Star fill="#aaa8a8" color="#aaa8a8"/> : <Star color="#aaa8a8" />}
+											{stock.isInWatchlist ? (
+												<Star
+													fill="#aaa8a8"
+													color="#aaa8a8"
+												/>
+											) : (
+												<Star color="#aaa8a8" />
+											)}
 										</div>
 									</Link>
 								</li>

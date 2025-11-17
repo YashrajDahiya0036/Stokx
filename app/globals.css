@@ -262,7 +262,7 @@
 		@apply bg-yellow-500 text-base hover:bg-yellow-500 text-gray-900 w-full rounded h-11 font-semibold cursor-pointer;
 	}
 	.watchlist-remove {
-		@apply bg-red-500! hover:bg-red-500! text-gray-900!;
+		@apply bg-red-500! hover:bg-red-500 text-gray-900!;
 	}
 	.watchlist-empty-container {
 		@apply container gap-8 flex-col items-center md:mt-10 p-6 text-center;
@@ -319,7 +319,7 @@
 		@apply border-b cursor-pointer text-gray-100 border-gray-600 hover:bg-gray-700/50 transition-colors;
 	}
 	.table-cell {
-		@apply font-medium text-base;
+		@apply font-medium text-base text-center;
 	}
 	.add-alert {
 		@apply flex text-sm items-center whitespace-nowrap gap-1.5 px-3 w-fit py-2 text-yellow-600 border border-yellow-600/20 rounded font-medium bg-transparent hover:bg-transparent cursor-pointer transition-colors;
