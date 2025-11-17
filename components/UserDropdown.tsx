@@ -27,7 +27,7 @@ const UserDropdown = ({user,initialStocks}:{user:User,initialStocks:StockWithWat
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="ghost"
-					className="flex gap-3 text-gray-400 items-center hover:text-yellow-500"
+					className="flex gap-3 text-gray-400 hover:bg-gray-700 items-center hover:text-yellow-500"
 				>
 					<Avatar className="h-8 w-8">
 						<AvatarImage
@@ -45,7 +45,7 @@ const UserDropdown = ({user,initialStocks}:{user:User,initialStocks:StockWithWat
 					</div>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="text-gray-400">
+			<DropdownMenuContent className="text-gray-400 bg-gray-800 border-gray-700">
 				<DropdownMenuLabel>
 					<div className="flex relative items-center gap-3 py-2">
 						<Avatar className="h-10 w-10">
@@ -67,6 +67,7 @@ const UserDropdown = ({user,initialStocks}:{user:User,initialStocks:StockWithWat
 						</div>
 					</div>
 				</DropdownMenuLabel>
+				<DropdownMenuSeparator className="sm:hidden bg-gray-600" />
 				<DropdownMenuItem
 					onClick={handleSignOut}
 					className="text-gray-100 text-md font-medium focus:bg-transparent focus:text-yellow-500 transition-colors cursor-pointer"
@@ -74,7 +75,7 @@ const UserDropdown = ({user,initialStocks}:{user:User,initialStocks:StockWithWat
 					<LogOut className="h-4 w-4 mr-2 hidden sm:block" />
 					Log Out
 				</DropdownMenuItem>
-				<DropdownMenuSeparator className="hidden sm:block bg-gray-600" />
+				<DropdownMenuSeparator className="sm:hidden bg-gray-600" />
 				<nav className="sm:hidden">
 					<Navitems initialStocks={initialStocks} />
 				</nav>

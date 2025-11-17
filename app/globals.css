@@ -491,3 +491,20 @@
 .scrollbar-hide-default::-webkit-scrollbar-thumb:hover {
 	background-color: #9095a1;
 }
+
+.search-dialog ::-webkit-scrollbar {
+	width: 6px;
+}
+
+.search-dialog ::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.search-dialog ::-webkit-scrollbar-thumb {
+	background: #6b7280;
+	border-radius: 9999px;
+}
+
+.search-dialog ::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
+}
